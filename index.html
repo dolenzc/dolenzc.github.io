@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato">
+    <title>Annex Studios Toronto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Lato", sans-serif; 
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: "Lato", sans-serif; 
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #B8470C;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links.mobile {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            padding: 2rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .nav-links.mobile.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-links.mobile li {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #B8470C;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #B8470C;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(184, 71, 12, 0.9), rgba(184, 71, 12, 0.7)), linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4)), url("files/dupont-spadina.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 98.5vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #B8470C;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #f8f9fa;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: #B8470C;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Amenities Section */
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .amenity-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(184, 71, 12, 0.1);
+        }
+
+        .amenity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #B8470C;
+        }
+
+        .amenity-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #B8470C, #D4601A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .amenity-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .amenity-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Location Section */
+        .location {
+            background: #f8f9fa;
+        }
+
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .location-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #B8470C;
+        }
+
+        .location-text p {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .location-highlights {
+            list-style: none;
+        }
+
+        .location-highlights li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #666;
+        }
+
+        .location-highlights li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #B8470C;
+            font-weight: bold;
+        }
+
+        .location-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .location-image {
+            width: 100%;
+            height: 200px;
+            background: #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .location-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .location-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: #B8470C;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: #B8470C;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #B8470C, #D4601A);
+            color: white;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact .section-title {
+            color: white;
+        }
+
+        .contact .section-title::after {
+            background: white;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .contact-form textarea {
+            grid-column: 1 / -1;
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: white;
+            color: #B8470C;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            justify-self: center;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links:not(.mobile) {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .amenities-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .location-images {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo">Annex Studios Toronto</div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <ul class="nav-links mobile" id="mobileNav">
+                <li><a href="#about">About</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Annex Studios Toronto</h1>
+                <p class="hero-tagline">Find Your Perfect Student Home with Confidence</p>
+                <p class="hero-description">
+                    Discover all-inclusive, student-friendly rentals in Toronto's most convenient locations. 
+                    Serving Toronto's students and young professionals since 1992. 
+                </p>
+                <a href="#contact" class="cta-button">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Annex Studios</h2>
+            <div class="about-content fade-in">
+                <p>
+                    At Annex Studios, we understand that finding the right student housing can be overwhelming. 
+                    That's why we've built our reputation on trust, transparency, and reliability. Our experienced team can match 
+                    you with the perfect accomodation for your needs and budget. 
+                </p>
+                <p>
+                    With over 30 years of experience serving students from University of Toronto, George Brown College, 
+                    and TMU, we know what matters most: convenient locations, reliable amenities, and 
+                    worry-free living. <br><br> Let us help you find your perfect home away from home.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="amenities" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Student-Focused Amenities</h2>
+            <div class="amenities-grid">
+                
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">🧺</div>
+                    <h3 class="amenity-title">Laundry in Building</h3>
+                    <p class="amenity-description">Convenient on-site laundry facilities – no more trips to the laundromat or lugging heavy bags around campus.</p>
+                </div>
+
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">🚇</div>
+                    <h3 class="amenity-title">10-Minute Walk to TTC Line 1</h3>
+                    <p class="amenity-description">Easy access to Toronto's main subway line connecting you directly to both campuses and the entire city.</p>
+                </div>
+
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">🌡️</div>
+                    <h3 class="amenity-title">Climate Control</h3>
+                    <p class="amenity-description">Individual air conditioning and heating units so you can study comfortably year-round in Toronto's variable climate.</p>
+                </div>
+
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">🚿</div>
+                    <h3 class="amenity-title">Modern Private Amenities</h3>
+                    <p class="amenity-description">Renovated washrooms and fully-equipped kitchens in every studio – your own private space to relax and recharge.</p>
+                </div>
+
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">💡</div>
+                    <h3 class="amenity-title">All Utilities Included</h3>
+                    <p class="amenity-description">Heat, hydro, water are all included in your rent. Focus on your studies, not unexpected paperwork.</p>
+                </div>
+
+                <div class="amenity-card fade-in">
+                    <div class="amenity-icon">📶</div>
+                    <h3 class="amenity-title">Basic Wi-Fi</h3>
+                    <p class="amenity-description">Wi-Fi that can help you get up and running. Easy connection to Bell and Rogers infrastructure to get your own high-speed internet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="section location">
+        <div class="container">
+            <h2 class="section-title fade-in">Prime Toronto Location</h2>
+            <div class="location-content">
+                <div class="location-text fade-in">
+                    <h3>Heart of The Annex</h3>
+                    <p>
+                        Located in Toronto's vibrant Annex neighborhood, you'll be at the center of student life. 
+                        With quick access to Dupont and Spadina subway stations, you can reach any campus in minutes.
+                    </p>
+                    <ul class="location-highlights">
+                        <li>Walking distance to University of Toronto St. George Campus</li>
+                        <li>Walking distance to George Brown College</li>
+                        <li>Easy transit connections to Toronto Metropolitan University (TMU)</li>
+                        <li>Chinatown's authentic restaurants and late-night eats</li>
+                        <li>Steps from glitzy Yorkville's upscale restaurants and stores</li>
+                        <li>Cozy coffee shops in the neighbourhood, perfect for studying</li>
+                        <li>Close to Kensington Market's eclectic food scene</li>
+                        <li>Grocery stores and daily essentials nearby</li>
+                    </ul>
+                </div>
+                <div class="location-images fade-in">
+                    <div class="location-image">
+                        <img src="files/uoft-uc.jpeg">
+                    </div>
+                    <div class="location-image">
+                        <img src="files/subway-dupont.jpg">
+                    </div>
+                    <div class="location-image">
+                        <img src="files/yorkville.jpg">
+                    </div>
+                    <div class="location-image">
+                        <img src="files/chinatown.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">What Students Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "This is where the first testimonial will go"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MS</div>
+                        <div class="author-info">
+                            <h4>John S.</h4>
+                            <p>International Student, UofT</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "This is where the second testimonial will go"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JK</div>
+                        <div class="author-info">
+                            <h4>James S.</h4>
+                            <p>Graduate Student, UofT</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "This is where the third testimonial will go"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <h4>Alex L.</h4>
+                            <p>Undergraduate, George Brown</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Ready to Find Your Home?</h2>
+            <div class="contact-content">
+                <p>Get in touch today and let us help you find the right place for your needs. Our team is here to answer any questions and guide you through the process.</p>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="First Name" required>
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="tel" placeholder="Phone Number">
+                    </div>
+                    <input type="text" placeholder="University/College">
+                    <textarea placeholder="Tell us about your housing needs, move-in timeline, and any specific requirements..."></textarea>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Annex Studios Toronto. All rights reserved. <br> Trusted Student Housing Solutions in Toronto since 1992.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links.mobile a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const navHeight = document.getElementById('navbar').offsetHeight;
+                const targetPosition = target.offsetTop - navHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade in animation on scroll
+        function fadeInOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', fadeInOnScroll);
+        fadeInOnScroll(); // Run on page load
+
+        // Navigation bar background on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Form submission handling
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Collect form data
+            const formData = new FormData(e.target);
+            const firstName = formData.get('firstName') || e.target.querySelector('input[placeholder="First Name"]').value;
+            const lastName = formData.get('lastName') || e.target.querySelector('input[placeholder="Last Name"]').value;
+            const email = formData.get('email') || e.target.querySelector('input[placeholder="Email Address"]').value;
+            const phone = formData.get('phone') || e.target.querySelector('input[placeholder="Phone Number"]').value;
+            const university = formData.get('university') || e.target.querySelector('input[placeholder="University/College"]').value;
+            const message = formData.get('message') || e.target.querySelector('textarea').value;
+
+            // Create mailto link
+            const recipientEmail = 'dolenzc@hotmail.com'; // Replace with your actual email
+            const subject = encodeURIComponent('Housing Inquiry from ' + firstName + ' ' + lastName);
+            const body = encodeURIComponent(
+                `Name: ${firstName} ${lastName}\n` +
+                `Email: ${email}\n` +
+                `Phone: ${phone}\n` +
+                `University/College: ${university}\n\n` +
+                `Message:\n${message}`
+            );
+
+            const mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+            alert('You should see a popup from your email client with the information you entered ready to send. We will get back to you within 24 hours!');
+        });
+
+        // Add hover effects for cards
+        document.querySelectorAll('.amenity-card, .testimonial-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
